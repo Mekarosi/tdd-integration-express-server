@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const booksData = require('../data/books.json')
 const {check, validationResult} = require('express-validator')
+const { saveBook } = require('../bookServices/saveBook')
 
 router.get('/', (req, res) => {
    res.json(booksData)
@@ -19,6 +20,24 @@ router.post('/', [
             errors: errors.array()
         })
     }
-})
 
-module.exports = router
+    const { name, author } = req.body
+    booksData.push({
+        name ,
+        author,  
+        id: Math.random()
+    })
+    const isSaved = saveBook(booksData)
+
+    if(!isSaved){
+       return res.status(500).json({
+        error: true,
+        message: "Could not save book  "
+       })
+    }
+    res.json({
+        message: "Successfully posted"
+    })
+}) 
+
+module.exports = router 

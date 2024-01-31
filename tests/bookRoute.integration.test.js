@@ -29,7 +29,7 @@ describe("Integration test for the books API", () => {
             name: "",
             author: "John Travolta"
         })
-
+        console.log(body);
         expect(statusCode).toBe(400)
         expect(body).toEqual({
             errors: [
@@ -42,5 +42,17 @@ describe("Integration test for the books API", () => {
                 }
             ]
         })
+    })
+
+    it("POST /abi/books - success", async  () => {
+        const { body, statusCode } = await request(app).post("/api/books").send({
+            name: "Entitled",
+            author: "John Travolta"
+        })
+
+        expect(statusCode).toBe(200)
+       expect(body).toEqual({
+        message: "Successfully posted"
+       })
     })
 })
