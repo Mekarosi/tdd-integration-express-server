@@ -40,11 +40,11 @@ router.post('/', [
     })
 }) 
 
-router.put("/bookid", (req, res) => {
-    const { bookid } = req.params
+router.put("/:bookId", (req, res) => {
+    const { bookId } = req.params
     const { name, author } = req.body
 
-    const foundBook = booksData.find((book) => book.id === bookid)
+    const foundBook = booksData.find((book) => book.id === bookId)
 
     if(!foundBook){
         return res.status(404).send({
