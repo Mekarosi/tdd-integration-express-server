@@ -74,11 +74,21 @@ describe("Integration test for the books API", () => {
             author: "Jack White"
         }) 
         expect(statusCode).toBe(201)
-
+ 
         expect(body).toEqual({ 
             name: "Loved init",
             author: "Jack White",
             id: 2
         })
+    })
+
+    it("DELETE /api/books/:bookId -failure when book not found", async () => {
+        const { body, statusCode } = await request(app).delete("/api/books/:5000")
+  
+        expect(statusCode).toBe(404)
+        expect(body).toEqual({ 
+            error: true,
+            message: "Book not found"})
+
     })
 })

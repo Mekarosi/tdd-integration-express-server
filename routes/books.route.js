@@ -70,11 +70,22 @@ router.put("/:bookId", (req, res) => {
  if(!isSaved){
     return res.status(500).json({
      error: true,
-     message: "Could not save book  "
+     message: "Could not save book"
     })
  }
  res.status(201).json(updatedBook)
 
 })
 
+router.delete("/:bookId", (req, res) => {
+   const {bookId} = req.params
+   const foundBook = booksData.find((book) => book.id == bookId)
+
+   if(!foundBook){
+    return res.status(404).send({
+        error: true, 
+        message: "Book not found"
+    })
+   }
+})
 module.exports = router 
