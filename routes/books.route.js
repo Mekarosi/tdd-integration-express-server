@@ -44,14 +44,36 @@ router.put("/:bookId", (req, res) => {
     const { bookId } = req.params
     const { name, author } = req.body
 
-    const foundBook = booksData.find((book) => book.id === bookId)
+    const foundBook = booksData.find((book) => book.id == bookId)
 
     if(!foundBook){
         return res.status(404).send({
-            error: true,
+            error: true, 
             message: "Book not found"
         })
     }
+    
+    let updatedBook = null
+   const updatedBooks = booksData.map((book) => {
+    if(book.id == bookId){
+       updatedBook = { 
+        ...book, 
+        name, 
+        author
+       }
+       return updatedBook 
+    }
+    return book 
+ })
+ const isSaved = saveBook(updatedBooks)
+
+ if(!isSaved){
+    return res.status(500).json({
+     error: true,
+     message: "Could not save book  "
+    })
+ }
+ res.status(201).json(updatedBook)
 
 })
 
