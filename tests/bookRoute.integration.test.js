@@ -55,4 +55,16 @@ describe("Integration test for the books API", () => {
         message: "Successfully posted"
        })
     })
+
+    it("PUT /api/books/bookid - failure when book is not found", async () => {
+        const { body, statusCode } = await request(app).put("/api/books/5000").send({
+            name: "Loved",
+            author: "John Travolta"
+        }) 
+        expect(statusCode).toBe(404)
+
+        expect(body).toEqual({
+           
+        })
+    })
 })
