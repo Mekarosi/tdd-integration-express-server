@@ -84,8 +84,22 @@ router.delete("/:bookId", (req, res) => {
    if(!foundBook){
     return res.status(404).send({
         error: true, 
-        message: "Book not found"
+        message: "Book not found" 
     })
    }
-})
+  const updatedBooks = booksData.filter((book ) => book.id != bookId ) 
+
+  const isSaved = saveBook(updatedBooks)
+
+  if(!isSaved){
+     return res.status(500).json({
+      error: true,
+      message: "Could not save book"
+     })
+  }
+  res.status(201).json({
+    message: "Successfully deleted"
+  })
+   
+}) 
 module.exports = router 
